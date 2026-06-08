@@ -413,23 +413,12 @@ def build_hierarchy(blocks: list[Block], title: str, author: str, log: dict) -> 
 
 
 # ---------------------------------------------------------------------------
-# Stage 8: anchors + TOC
+# Stage 8: (no inline TOC / anchors) — pandoc generates a page-numbered,
+# bookmarked TOC at build time, which keeps the Markdown clean for GitHub and
+# avoids a duplicate table of contents in the rendered book.
 # ---------------------------------------------------------------------------
 def add_anchors_and_toc(blocks: list[Block]) -> list[Block]:
-    n = 0
-    toc_lines = ["## विषयानुक्रमणिका", ""]
-    for b in blocks:
-        if b.kind == "heading" and b.level >= 1:
-            n += 1
-            b.anchor = f"sec-{n:03d}"
-            b.lines = [f"{'#' * b.level} {b.text} {{#{b.anchor}}}"]
-            if b.role == "book":
-                continue
-            indent = "  " * (b.level - 1)
-            toc_lines.append(f"{indent}- [{b.text}](#{b.anchor})")
-    toc_block = Block("para", toc_lines)
-    # place TOC right after the book title + author (first 2 blocks)
-    return blocks[:2] + [toc_block] + blocks[2:]
+    return blocks
 
 
 # ---------------------------------------------------------------------------
@@ -454,7 +443,7 @@ def emit(blocks: list[Block], endnotes: dict, title: str) -> str:
             out.append("#### टिप्पण्यः")
             out.append("")
             for num, txt in notes:
-                label = num if num else "•"
+                label = num if num else "॰"
                 out.append(f"{label}. {txt}")
             out.append("")
 

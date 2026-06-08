@@ -18,14 +18,17 @@ from pathlib import Path
 
 DEVA_SERIF = "/usr/share/fonts/truetype/noto/NotoSerifDevanagari-Regular.ttf"
 
-# xelatex preamble: Devanagari main font + Latin fallback family.
+# xelatex preamble: Devanagari main font + automatic Latin fallback (the text is
+# ~99.9% Devanagari with a few stray Latin runs — emails, manuscript sigla, OCR
+# artefacts — that the Devanagari font cannot render).
 HEADER_TEX = r"""
 \usepackage{fontspec}
 \setmainfont{Noto Serif Devanagari}
-\newfontfamily\latinfallback{Noto Serif}
-\usepackage{newunicodechar}
-\newunicodechar{•}{\textbullet}
+\newfontfamily\latinfont{Noto Serif}
+\usepackage[Latin]{ucharclasses}
+\setTransitionsForLatin{\latinfont}{\normalfont}
 \setlength{\emergencystretch}{3em}
+\sloppy
 """
 
 
@@ -41,6 +44,7 @@ def build_epub(book: Path, out: Path, title: str, author: str) -> None:
         "--metadata", f"title={title}",
         "--metadata", f"author={author}",
         "--metadata", "lang=hi",
+        "--metadata", "toc-title=विषयानुक्रमणिका",
         f"--epub-embed-font={DEVA_SERIF}",
         "--resource-path", f"{book.parent}:{book.parent}/assets",
     ])
@@ -58,6 +62,7 @@ def build_pdf(book: Path, out: Path, title: str, author: str, work: Path) -> Non
         "-V", f"title={title}",
         "-V", f"author={author}",
         "-V", "mainfont=Noto Serif Devanagari",
+        "-V", "toc-title=विषयानुक्रमणिका",
         "-H", str(header),
         "--resource-path", f"{book.parent}:{book.parent}/assets",
     ])
