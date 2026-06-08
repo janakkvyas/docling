@@ -140,12 +140,13 @@ def call_batch(client: SarvamAI, batch: list[Unit], model: str) -> dict[int, str
     for u in batch:
         parts.append(f"###{u.idx}###\n{u.masked}")
     user = (
-        "Proofread each segment below. Return the SAME ###number### markers in the "
-        "same order, each followed by the corrected text. Keep every §§T..§§ token "
-        "verbatim. Do not merge or drop segments.\n\n" + "\n".join(parts)
+        "Proofread the numbered segments below. Output EXACTLY one corrected line "
+        "per segment, in the same order, each prefixed with its ###number### marker. "
+        "Keep every §§T..§§ token verbatim. Never merge, split, drop or add "
+        "segments.\n\n" + "\n".join(parts)
     )
     resp = client.chat.completions(
-        model=model, temperature=0,
+        model=model, temperature=0, reasoning_effort="low", max_tokens=4096,
         messages=[{"role": "system", "content": SYSTEM_PROMPT},
                   {"role": "user", "content": user}],
     )
@@ -153,13 +154,22 @@ def call_batch(client: SarvamAI, batch: list[Unit], model: str) -> dict[int, str
     if not text:
         return {}
     out: dict[int, str] = {}
+    # Primary: parse ###idx### markers if the model echoed them.
     chunks = re.split(r"###(\d+)###", text)
-    # chunks: ['', 'idx', 'body', 'idx', 'body', ...]
     for j in range(1, len(chunks) - 1, 2):
         try:
-            out[int(chunks[j])] = chunks[j + 1].strip()
+            body = chunks[j + 1].strip()
+            if body:
+                out[int(chunks[j])] = body
         except ValueError:
             continue
+    if out:
+        return out
+    # Fallback: positional line mapping (each unit is exactly one line).
+    lines = [ln for ln in text.split("\n") if ln.strip()]
+    if len(lines) == len(batch):
+        for u, ln in zip(batch, lines):
+            out[u.idx] = re.sub(r"^###\d+###\s*", "", ln).strip()
     return out
 
 
