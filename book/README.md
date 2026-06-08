@@ -39,6 +39,11 @@ uv run python scripts/bookify_build.py book/book.md book/
 - Extracts the embedded base64 images to `assets/` and drops the English OCR
   captions.
 - Removes the duplicated running footer and the `<!-- chunk … -->` markers.
+- Strips the interleaved Hindi prose glosses (the parenthetical भावार्थ
+  paraphrases between verses) and the footnote/टिप्पण्यः blocks, leaving the
+  pure Sanskrit mūla text. Scripture **citations** in parentheses —
+  `(तैत्ति.उप.2।1)`, `(भग.गीता 4।24)` — sigla, and textual-variant notes are
+  kept (a Hindi-marker test distinguishes a gloss from a citation).
 - Renders verses as Markdown line blocks so the poetry keeps its line breaks.
 - Builds the two-part hierarchy: **भाग १** (stotras/prakaraṇa works) and
   **भाग २** (Aṇubhāṣya). For भाग २ it reconstructs the full

@@ -51,6 +51,18 @@ LATIN_TITLE_MAP = {
     "TATVARTHDIP NIBANDH": "तत्त्वार्थदीपनिबन्ध",
 }
 
+# Hindi-marker tokens that identify a parenthetical as a Hindi prose gloss (the
+# भावार्थ paraphrases interleaved between verses). These never occur in the
+# Sanskrit scripture citations — (तैत्ति.उप.2।1), (भग.गीता 4।24) — or in the
+# structural labels and textual-variant notes, so those are preserved.
+HINDI_GLOSS_MARKERS = [
+    "को", "के ", "की ", "है", "हैं", "में", "से ", "नहीं", "किया", "जात",
+    "होता", "फल", "ध्यान", "उपक्रम", "अरु", "कियेको", "होय", "गया", "करना",
+    "वाले", "वालों", "कहा", "मानी", "रूप)", "चाहिये", "चाहिए", "लिए", "लिये",
+]
+GLOSS_PAREN_RE = re.compile(r"\([^)]{0,1500}\)", re.S)
+_GLOSS_MARK_RE = re.compile("|".join(re.escape(m) for m in HINDI_GLOSS_MARKERS))
+
 # Part II structural end-markers
 WORK_END_RE = re.compile(r"इति\s.*(समाप्त|सम्पूर्ण)")
 # Match both "...अधिकरणम्॥N॥" and sandhi-fused "...जिज्ञासाधिकरणम्॥1॥" by keying
@@ -79,6 +91,28 @@ class Block:
     anchor: str = ""
     section_id: int = -1  # which work/section this block belongs to
     meta: dict = field(default_factory=dict)
+
+
+# ---------------------------------------------------------------------------
+# Stage 0: strip Hindi prose glosses (parenthetical भावार्थ paraphrases)
+# ---------------------------------------------------------------------------
+def strip_glosses(raw: str, log: dict) -> str:
+    removed = []
+
+    def repl(m):
+        span = m.group(0)
+        if _GLOSS_MARK_RE.search(span):
+            removed.append(span.replace("\n", " ")[:80])
+            return ""
+        return span
+
+    out = GLOSS_PAREN_RE.sub(repl, raw)
+    # collapse blank lines left behind by removed standalone glosses
+    out = re.sub(r"[ \t]+\n", "\n", out)
+    out = re.sub(r"\n{3,}", "\n\n", out)
+    log["glosses_removed"] = len(removed)
+    log["glosses_sample"] = removed[:25]
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -431,12 +465,15 @@ def is_verse(b: Block) -> bool:
     return bool(re.search(rf"{DANDA}+\s*[\d०-९]+\s*{DANDA}+", joined))
 
 
-def emit(blocks: list[Block], endnotes: dict, title: str) -> str:
+def emit(blocks: list[Block], endnotes: dict, title: str,
+         emit_endnotes: bool = False) -> str:
     out: list[str] = []
     # group blocks by section to append endnotes at each section end
     cur_section = -1
 
     def flush_endnotes(sid: int):
+        if not emit_endnotes:  # टिप्पण्यः blocks intentionally omitted
+            return
         notes = endnotes.get(sid)
         if notes:
             out.append("")
@@ -486,6 +523,7 @@ def main() -> int:
     log: dict = {}
 
     raw = Path(args.input).read_text(encoding="utf-8")
+    raw = strip_glosses(raw, log)
     blocks = parse(raw)
     classify_headings(blocks, log)
     endnotes = assign_sections_and_footnotes(blocks, log)

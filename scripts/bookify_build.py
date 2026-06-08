@@ -18,15 +18,14 @@ from pathlib import Path
 
 DEVA_SERIF = "/usr/share/fonts/truetype/noto/NotoSerifDevanagari-Regular.ttf"
 
-# xelatex preamble: Devanagari main font + automatic Latin fallback (the text is
-# ~99.9% Devanagari with a few stray Latin runs — emails, manuscript sigla, OCR
-# artefacts — that the Devanagari font cannot render).
+# xelatex preamble: a single Devanagari font for the whole book. (An earlier
+# ucharclasses Latin-fallback was removed: its block-transition on the leading
+# "(" of the Hindi glosses pushed the following Devanagari into the Latin font,
+# rendering it as missing-glyph boxes. The text is ~99.9% Devanagari and the few
+# stray Latin characters are not worth corrupting every gloss.)
 HEADER_TEX = r"""
 \usepackage{fontspec}
 \setmainfont{Noto Serif Devanagari}
-\newfontfamily\latinfont{Noto Serif}
-\usepackage[Latin]{ucharclasses}
-\setTransitionsForLatin{\latinfont}{\normalfont}
 \setlength{\emergencystretch}{3em}
 \sloppy
 """
