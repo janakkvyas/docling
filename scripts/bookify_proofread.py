@@ -269,6 +269,9 @@ def main() -> int:
             done += 1
             if done % 10 == 0:
                 print(f"  {done}/{len(batches)} batches", flush=True)
+                # persist incrementally so a timeout/kill never loses progress
+                cache_path.write_text(json.dumps(cache, ensure_ascii=False),
+                                      encoding="utf-8")
     cache_path.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
 
     # rebuild markdown from units in order (prose paragraphs collapse to one
