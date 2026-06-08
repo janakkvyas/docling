@@ -63,6 +63,35 @@ HINDI_GLOSS_MARKERS = [
 GLOSS_PAREN_RE = re.compile(r"\([^)]{0,1500}\)", re.S)
 _GLOSS_MARK_RE = re.compile("|".join(re.escape(m) for m in HINDI_GLOSS_MARKERS))
 
+# Whole-token markers used to detect standalone Hindi prose paragraphs (the
+# भावार्थ summaries interleaved with the Sanskrit verses). STRONG tokens are
+# unambiguously Hindi (copula/negation/conjunctions never standalone in
+# Sanskrit); MED are common Hindi auxiliaries/pronouns. The Sanskrit
+# commentary of Part II contains none of these as whole tokens, so it is left
+# untouched (verified: 0 hits across its prose).
+HINDI_PROSE_STRONG = {
+    "है", "हैं", "नहीं", "हुआ", "हुई", "हुए", "हुईं", "चाहिये", "चाहिए", "और",
+    "क्या", "क्यों", "जब", "तब", "अब", "यहाँ", "वहाँ", "जैसे", "कोई", "कुछ",
+    "बहुत", "इसलिए", "क्योंकि", "था", "थी", "थे", "नाहिं", "परि",
+}
+HINDI_PROSE_MED = {
+    "होना", "होता", "होती", "होते", "होत", "करना", "करता", "करते", "करनी",
+    "करनो", "गया", "गये", "गयी", "गई", "सकता", "सकते", "सकती", "वाला", "वाले",
+    "वाली", "अपने", "अपना", "अपनी", "हर", "तो", "ही", "भी", "रहे", "रही",
+    "रहा", "देना", "लेना", "कहना", "माना", "जाना", "रखने", "बने", "पाने",
+    "जाने", "केसे", "ताको", "सांचो", "यों", "तहां", "तातें", "अबहु",
+}
+_HINDI_SUFFIXES = ("को", "के", "की", "का", "ने", "में", "से")
+
+
+def hindi_prose_score(text: str) -> tuple[float, int]:
+    """Return (score, whole-token-marker-count) for a block of text."""
+    toks = re.split(r"[\s,।॥.:;()'\"]+", text.strip())
+    strong = sum(1 for w in toks if w in HINDI_PROSE_STRONG)
+    med = sum(1 for w in toks if w in HINDI_PROSE_MED)
+    suf = sum(1 for w in toks if len(w) >= 4 and w.endswith(_HINDI_SUFFIXES))
+    return strong * 2 + med + suf * 0.5, strong + med
+
 # Part II structural end-markers
 WORK_END_RE = re.compile(r"इति\s.*(समाप्त|सम्पूर्ण)")
 # Match both "...अधिकरणम्॥N॥" and sandhi-fused "...जिज्ञासाधिकरणम्॥1॥" by keying
@@ -113,6 +142,23 @@ def strip_glosses(raw: str, log: dict) -> str:
     log["glosses_removed"] = len(removed)
     log["glosses_sample"] = removed[:25]
     return out
+
+
+# ---------------------------------------------------------------------------
+# Stage 1b: drop standalone Hindi prose paragraphs
+# ---------------------------------------------------------------------------
+def strip_hindi_prose(blocks: list[Block], log: dict) -> None:
+    removed = []
+    for b in blocks:
+        if b.kind != "para" or is_verse(b):
+            continue
+        score, markers = hindi_prose_score("\n".join(b.lines))
+        # require a real Hindi word (not suffix matches alone) plus enough signal
+        if score >= 2 and markers >= 1:
+            b.kind = "drop"
+            removed.append(" ".join(b.lines)[:80])
+    log["hindi_prose_removed"] = len(removed)
+    log["hindi_prose_sample"] = removed[:25]
 
 
 # ---------------------------------------------------------------------------
@@ -525,6 +571,7 @@ def main() -> int:
     raw = Path(args.input).read_text(encoding="utf-8")
     raw = strip_glosses(raw, log)
     blocks = parse(raw)
+    strip_hindi_prose(blocks, log)
     classify_headings(blocks, log)
     endnotes = assign_sections_and_footnotes(blocks, log)
     tables_to_lists(blocks, log)
