@@ -45,7 +45,9 @@ def srt_time(seconds: float) -> str:
     return f"{ms // 3600000:02d}:{ms % 3600000 // 60000:02d}:{ms % 60000 // 1000:02d},{ms % 1000:03d}"
 
 
-def load_pieces(json_dir: Path, cuts: dict[str, float]) -> dict[str, list[tuple[Path, float]]]:
+def load_pieces(
+    json_dir: Path, cuts: dict[str, float]
+) -> dict[str, list[tuple[Path, float]]]:
     days: dict[str, list[tuple[Path, float]]] = {}
     for path in sorted(json_dir.glob("*.mp3.json")):
         stem = path.name[: -len(".mp3.json")]
@@ -65,10 +67,12 @@ def read_segments(pieces: list[tuple[Path, float]], main_label: str) -> list[Seg
         entries = json.loads(path.read_text())["diarized_transcript"]["entries"]
         airtime: Counter[str] = Counter()
         for entry in entries:
-            airtime[entry["speaker_id"]] += entry["end_time_seconds"] - entry["start_time_seconds"]
+            airtime[entry["speaker_id"]] += (
+                entry["end_time_seconds"] - entry["start_time_seconds"]
+            )
         main = airtime.most_common(1)[0][0]
         for entry in entries:
-            text = entry["transcript"].strip()
+            text = " ".join(entry["transcript"].split())  # ASR text can contain newlines
             if not text:
                 continue
             speaker_id = entry["speaker_id"]
@@ -80,12 +84,24 @@ def read_segments(pieces: list[tuple[Path, float]], main_label: str) -> list[Seg
                     listeners[key] = LISTENER.format(n=len(listeners) + 1)
                 label = listeners[key]
             segments.append(
-                Segment(entry["start_time_seconds"] + offset, entry["end_time_seconds"] + offset, label, text)
+                Segment(
+                    entry["start_time_seconds"] + offset,
+                    entry["end_time_seconds"] + offset,
+                    label,
+                    text,
+                )
             )
     return segments
 
 
-def write_day(out_dir: Path, prefix: str, day: str, segments: list[Segment], title: str, main_label: str) -> None:
+def write_day(
+    out_dir: Path,
+    prefix: str,
+    day: str,
+    segments: list[Segment],
+    title: str,
+    main_label: str,
+) -> None:
     duration = segments[-1].end if segments else 0.0
     header = [
         title,
@@ -104,7 +120,11 @@ def write_day(out_dir: Path, prefix: str, day: str, segments: list[Segment], tit
 
     def flush_turn() -> None:
         if turn_text:
-            who = "S:" if current == main_label else f"L{current.split('(Listener ')[1].rstrip(')')}:"
+            who = (
+                "S:"
+                if current == main_label
+                else f"L{current.split('(Listener ')[1].rstrip(')')}:"
+            )
             turns.append(f"{who} [{hms(turn_start)}] " + " ".join(turn_text))
 
     for n, seg in enumerate(segments, 1):
@@ -114,13 +134,17 @@ def write_day(out_dir: Path, prefix: str, day: str, segments: list[Segment], tit
             review += ["", f"{seg.speaker}:"]
         review.append(f"[{hms(seg.start)}] {seg.text}")
         turn_text.append(seg.text)
-        srt.append(f"{n}\n{srt_time(seg.start)} --> {srt_time(seg.end)}\n{seg.speaker}: {seg.text}\n")
+        srt.append(
+            f"{n}\n{srt_time(seg.start)} --> {srt_time(seg.end)}\n{seg.speaker}: {seg.text}\n"
+        )
     flush_turn()
     (out_dir / f"{prefix}_{day}.txt").write_text("\n".join(review) + "\n")
     (out_dir / f"{prefix}_{day}.srt").write_text("\n".join(srt))
     (out_dir / f"{prefix}_{day}_turns.txt").write_text("\n".join(turns) + "\n")
     words = sum(len(s.text.split()) for s in segments)
-    print(f"{prefix}_{day}: {hms(duration)}, {len(segments)} segments, {len(turns)} turns, {words} words")
+    print(
+        f"{prefix}_{day}: {hms(duration)}, {len(segments)} segments, {len(turns)} turns, {words} words"
+    )
 
 
 def main(argv: list[str]) -> None:
@@ -129,7 +153,12 @@ def main(argv: list[str]) -> None:
         i = argv.index("--title")
         title = argv[i + 1]
         argv = argv[:i] + argv[i + 2 :]
-    json_dir, out_dir, prefix, main_label = Path(argv[1]), Path(argv[2]), argv[3], argv[4]
+    json_dir, out_dir, prefix, main_label = (
+        Path(argv[1]),
+        Path(argv[2]),
+        argv[3],
+        argv[4],
+    )
     cuts: dict[str, float] = {}
     if len(argv) > 5 and Path(argv[5]).exists():
         for line in Path(argv[5]).read_text().split("\n"):
@@ -138,7 +167,9 @@ def main(argv: list[str]) -> None:
                 cuts[day] = float(seconds)
     out_dir.mkdir(parents=True, exist_ok=True)
     for day, pieces in sorted(load_pieces(json_dir, cuts).items()):
-        write_day(out_dir, prefix, day, read_segments(pieces, main_label), title, main_label)
+        write_day(
+            out_dir, prefix, day, read_segments(pieces, main_label), title, main_label
+        )
 
 
 if __name__ == "__main__":

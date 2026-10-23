@@ -243,6 +243,20 @@ subtitle: "Reference Appendix — Kārikās and Prakāśa Sentences Quoted in Le
 > *artho 'yam eva nikhilair api vedavākyai rāmāyaṇaiḥ sahitabhāratapañcarātraiḥ |*  
 > *anyaiś ca śāstravacanaiḥ saha tattvasūtrair nirṇīyate sahṛdayaṁ hariṇā sadaiva ||*
 
+## Kārikā 31
+
+**Read in (1943):** red mūla p. ३ (leaf 104); commentary p. ७१ (leaf 180). Quoted in Lecture 13.
+
+> *vidyāvidye hareḥ śaktī māyayaiva vinirmite |*
+> *te jīvasyaiva nānyasya duḥkhitvaṁ cāpy anīśatā ||* (Tattvārthadīpanibandha, Śāstrārtha Prakaraṇa 31)
+
+## Kārikā 32
+
+**Read in (1943):** red mūla p. ३ (leaf 104); commentary p. ७२ (leaf 181). Quoted in Lecture 13.
+
+> *svarūpājñānam ekaṁ hi parva dehendriyāsavaḥ |*
+> *antaḥkaraṇam eṣāṁ hi caturdhādhyāsa ucyate ||* (Tattvārthadīpanibandha, Śāstrārtha Prakaraṇa 32)
+
 # B. Prakāśa Sentences
 
 Texts are transcribed from the 1943 scans (all VERIFIED). Each row of a table is one lecture locus; "F" after a line number means the locus carries ‹श्रवणाधारित›.

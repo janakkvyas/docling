@@ -29,7 +29,10 @@ PREFIX, BASENAME = (ROOT / "tools" / "series.cfg").read_text().split()
 def renumber_docpr(docx: Path) -> int:
     """Give every wp:docPr a unique id; return the number of duplicates left (must be 0)."""
     tmp = docx.with_suffix(".tmp.docx")
-    with zipfile.ZipFile(docx) as zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout:
+    with (
+        zipfile.ZipFile(docx) as zin,
+        zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout,
+    ):
         for item in zin.infolist():
             data = zin.read(item.filename)
             if item.filename == "word/document.xml":
@@ -52,29 +55,57 @@ def build(key: str, out: Path) -> None:
     md = BUILD / f"{PREFIX}{key}.md"
     docx = BUILD / f"{base}.docx"
     subprocess.run(
-        ["pandoc", md.name, "-o", docx.name, "--reference-doc=ref.docx", "-f", "markdown+smart",
-         f"--lua-filter={ROOT / 'tools' / 'verse_breaks.lua'}"],
-        cwd=BUILD, check=True,
+        [
+            "pandoc",
+            md.name,
+            "-o",
+            docx.name,
+            "--reference-doc=ref.docx",
+            "-f",
+            "markdown+smart",
+            f"--lua-filter={ROOT / 'tools' / 'verse_breaks.lua'}",
+        ],
+        cwd=BUILD,
+        check=True,
     )
     dups = renumber_docpr(docx)
     subprocess.run(
-        ["soffice", "--headless", f"-env:UserInstallation=file:///tmp/lo_final_{PREFIX}{key}",
-         "--convert-to", "pdf", "--outdir", str(BUILD), str(docx)],
-        check=True, capture_output=True,
+        [
+            "soffice",
+            "--headless",
+            f"-env:UserInstallation=file:///tmp/lo_final_{PREFIX}{key}",
+            "--convert-to",
+            "pdf",
+            "--outdir",
+            str(BUILD),
+            str(docx),
+        ],
+        check=True,
+        capture_output=True,
     )
     pdf = docx.with_suffix(".pdf")
     info = subprocess.run(["pdfinfo", str(pdf)], capture_output=True, text=True).stdout
     pages = re.search(r"Pages:\s+(\d+)", info).group(1)
-    images = len([n for n in zipfile.ZipFile(docx).namelist() if n.startswith("word/media/")])
+    images = len(
+        [n for n in zipfile.ZipFile(docx).namelist() if n.startswith("word/media/")]
+    )
     figures = len(re.findall(r"^!\[Figure", md.read_text(), re.M))
-    for src, dst in ((docx, out / docx.name), (pdf, out / pdf.name), (md, out / f"{base}.md")):
+    for src, dst in (
+        (docx, out / docx.name),
+        (pdf, out / pdf.name),
+        (md, out / f"{base}.md"),
+    ):
         shutil.copyfile(src, dst)
-    print(f"{base}: {pages} pages, {figures} figure refs, {images} images in docx, duplicate docPr ids {dups}")
+    print(
+        f"{base}: {pages} pages, {figures} figure refs, {images} images in docx, duplicate docPr ids {dups}"
+    )
 
 
 def main(argv: list[str]) -> None:
     out = Path(argv[1]) if len(argv) > 1 else ROOT / "outputs"
-    keys = argv[2:] or sorted(p.stem[len(PREFIX):] for p in BUILD.glob(f"{PREFIX}[0-9][0-9]*.md"))
+    keys = argv[2:] or sorted(
+        p.stem[len(PREFIX) :] for p in BUILD.glob(f"{PREFIX}[0-9][0-9]*.md")
+    )
     out.mkdir(parents=True, exist_ok=True)
     for key in keys:
         build(key, out)
