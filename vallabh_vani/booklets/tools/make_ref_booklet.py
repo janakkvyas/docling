@@ -2,7 +2,8 @@
 """Write the Word reference documents for the two booklet types.
 
     make_ref_booklet.py hindi   OUT.docx   # pravachan booklet, after प्रतिबिम्बवाद (2026, rev. 2)
-    make_ref_booklet.py english OUT.docx   # translation book, after नलकूबरमणिग्रीवकृतस्तुति (rev. 1)
+    make_ref_booklet.py english OUT.docx   # translation book, after नलकूबरमणिग्रीवकृतस्तुति (rev. 1),
+                                           # and the English discourse booklet set in the same style
 
 Every number below was measured in the exemplar PDFs (page size, margins, fonts, sizes, spacing);
 see vallabh_vani/booklets/SPEC.md. pandoc uses the styles, the page setup and the footer of this file.
@@ -89,6 +90,7 @@ def para(
     rule="auto",
     page_break=None,
     keep_next=None,
+    keep_lines=None,
     tabs=(),
     base="Normal",
     font=None,
@@ -135,6 +137,8 @@ def para(
         child(ppr, "w:pageBreakBefore", **{"w:val": "1" if page_break else "0"})
     if keep_next is not None:
         child(ppr, "w:keepNext", **{"w:val": "1" if keep_next else "0"})
+    if keep_lines is not None:
+        child(ppr, "w:keepLines", **{"w:val": "1" if keep_lines else "0"})
     if tabs:
         old = ppr.find(qn("w:tabs"))
         if old is not None:
@@ -470,7 +474,17 @@ else:
         rule="exact",
         keep_next=True,
     )
-    para("Verse", size=12, align="center", first=0, after=24, line=24.3, rule="exact")
+    para(  # a verse stays on one page with its IAST
+        "Verse",
+        size=12,
+        align="center",
+        first=0,
+        after=24,
+        line=24.3,
+        rule="exact",
+        keep_next=True,
+        keep_lines=True,
+    )
     para(
         "Verse IAST",
         size=11,
@@ -479,6 +493,7 @@ else:
         after=24,
         line=24.3,
         rule="exact",
+        keep_lines=True,
     )
     para(
         "Commentary",
@@ -533,6 +548,88 @@ else:
         line=14.3,
         rule="exact",
     )
+    # English discourse booklets (a lecture in the speaker's English, SPEC_ENGLISH_DISCOURSE_BOOKLET.md):
+    # the same page and type, with a fuller title page, a note on the text, contents with page numbers
+    # and an index of quotations
+    para(
+        "Book Subtitle",
+        size=16,
+        align="center",
+        first=0,
+        before=40,
+        after=4,
+        line=24.3,
+        rule="exact",
+    )
+    para(
+        "Title Note",
+        size=11,
+        align="center",
+        first=0,
+        before=0,
+        after=6,
+        line=16,
+        rule="exact",
+    )
+    para(
+        "Lecture Author",
+        size=18,
+        align="center",
+        first=0,
+        before=90,
+        after=4,
+        line=24.3,
+        rule="exact",
+    )
+    para(
+        "Front Heading",
+        size=16,
+        align="center",
+        first=0,
+        before=0,
+        after=18,
+        line=24.3,
+        rule="exact",
+        keep_next=True,
+    )
+    para(
+        "Toc Item",
+        size=12,
+        align="left",
+        left=72,
+        hanging=29.5,
+        before=2,
+        after=2,
+        line=15,
+        rule="exact",
+        tabs=[(72, "left"), (292, "right")],
+    )
+    st = style("Toc Item")  # titles wrap before the page-number column
+    st.paragraph_format.right_indent = Pt(44)
+    para(
+        "Index Heading",
+        size=14,
+        align="center",
+        first=0,
+        before=0,
+        after=12,
+        line=24.3,
+        rule="exact",
+        keep_next=True,
+    )
+    para(
+        "Index Item",
+        size=11,
+        align="left",
+        left=30,
+        hanging=30,
+        before=0,
+        after=3,
+        line=14.3,
+        rule="exact",
+        tabs=[(30, "left"), (328, "right")],
+    )
+    style("Index Item").paragraph_format.right_indent = Pt(24)
     folio_font, folio_size, folio_bold = "Tahoma", 8, True
 
 # PageBreak: an almost invisible paragraph that starts a new page (markdown "* * *")
@@ -577,5 +674,23 @@ if KIND == "hindi":
 if KIND == "english":  # the English exemplar hyphenates
     s = doc.settings.element
     child(s, "w:autoHyphenation")
+
+# Word reads the properties of a style in the order of the schema (ECMA-376 CT_PPrBase, CT_RPr); `child` appends,
+# so put every pPr and rPr of the styles back in that order
+PPR = """pStyle keepNext keepLines pageBreakBefore framePr widowControl numPr suppressLineNumbers pBdr shd tabs
+suppressAutoHyphens kinsoku wordWrap overflowPunct topLinePunct autoSpaceDE autoSpaceDN bidi adjustRightInd
+snapToGrid spacing ind contextualSpacing mirrorIndents suppressOverlap jc textDirection textAlignment
+textboxTightWrap outlineLvl divId cnfStyle rPr sectPr pPrChange""".split()
+RPR = """rStyle rFonts b bCs i iCs caps smallCaps strike dstrike outline shadow emboss imprint noProof snapToGrid
+vanish webHidden color spacing w kern position sz szCs highlight u effect bdr shd fitText vertAlign rtl cs em
+lang eastAsianLayout specVanish oMath""".split()
+for tag, order in (("w:pPr", PPR), ("w:rPr", RPR)):
+    rank = {qn("w:" + n): i for i, n in enumerate(order)}
+    for el in doc.styles.element.iter(qn(tag)):
+        kids = list(el)
+        for k in kids:
+            el.remove(k)
+        for k in sorted(kids, key=lambda e: rank.get(e.tag, len(rank))):
+            el.append(k)
 doc.save(str(OUT))
 print("wrote", OUT)

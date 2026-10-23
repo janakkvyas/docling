@@ -8,17 +8,20 @@ apply the line-count limit to it.
 | Series | Sessions | Language of the lectures | What was produced |
 |---|---|---|---|
 | `shastrarth_prakaran/` — the Śāstrārtha Prakaraṇa of Vallabhācārya's Tattvārthadīpanibandha | 13 weekly sessions, 2026-07-11 → 2026-10-17 | Hindi (with Gujarati, Sanskrit, English) | Hindi ASR transcripts; 15 English translation documents (Lectures 3 and 5 in two parts; 570 pages), 104 figures; every quoted kārikā and Prakāśa sentence verified against the Bombay 1943 edition |
-| `kapil_gita/` — the Kapila Gītā (Śrīmad Bhāgavata 3.25–33) | 15 sessions, 2022-10-30 → 2023-03-05 (revision) | English (with Sanskrit, Hindi, Gujarati) | English ASR transcripts; 15 reading editions in the speaker's own words (429 pages) |
+| `kapil_gita/` — the Kapila Gītā (Śrīmad Bhāgavata 3.25–33) | 15 sessions, 2022-10-30 → 2023-03-05 (revision) | English (with Sanskrit, Hindi, Gujarati) | English ASR transcripts; 15 reading editions in the speaker's own words, delivered as 15 English discourse booklets |
 
-The `.docx` and `.pdf` deliverables are not committed (they are built from the markdown here, see
-*Building*), nor is any audio. Private transcripts of a living teacher's classes: treat the contents of
+The owner receives **Word files only** (`.docx`), never PDF or markdown. The `.docx` deliverables are not
+committed (they are built from the markdown here, see *Building*; PDFs are made only to check the layout),
+nor is any audio. Private transcripts of a living teacher's classes: treat the contents of
 this directory with the discretion the speaker and his students would expect.
 
 Two more kinds of publication are documented in `booklets/`, learned from finished booklets the owner shared:
 the **Hindi pravachan booklet** (one discourse in the speaker's own words and idiom; model प्रतिबिम्बवाद, 2026)
 and the **English stuti book** (a Bhāgavata stuti with the Subodhinī in Devanagari, IAST and English; model
-नलकूबरमणिग्रीवकृतस्तुति). `booklets/README.md` lists the briefs, the speaker's idiom, the Word templates and the
-build. `PROJECT_INSTRUCTIONS.md` is the text for a Claude Project that covers all four kinds of work.
+नलकूबरमणिग्रीवकृतस्तुति). The lecture editions are delivered as **English discourse booklets**, set like the stuti
+book and built like the pravachan booklet (`booklets/SPEC_ENGLISH_DISCOURSE_BOOKLET.md`; first made for the Kapila
+Gītā). `booklets/README.md` lists the briefs, the speaker's idiom, the Word templates and the build.
+`PROJECT_INSTRUCTIONS.md` is the text for a Claude Project that covers all the work.
 
 ## Layout
 
@@ -26,7 +29,7 @@ build. `PROJECT_INSTRUCTIONS.md` is the text for a Claude Project that covers al
 vallabh_vani/
   README.md
   PROJECT_INSTRUCTIONS.md       instructions for a Claude Project covering all the work
-  booklets/                     Hindi pravachan booklets and English stuti books: briefs, idiom, templates, build
+  booklets/                     pravachan booklets, stuti books, discourse booklets: briefs, idiom, templates, build
   tools/                         the pipeline (see below)
   shastrarth_prakaran/
     SPEC.md                      the translation brief the agents worked to, with the settled conventions
@@ -76,8 +79,8 @@ vallabh_vani/
 6. **Build.** `tools/make_ref.py` writes the house `ref.docx` (Noto Serif / Noto Serif Devanagari,
    maroon headings, A4, page numbers). `tools/build_final.py OUTDIR [KEY …]` runs pandoc with it and
    `tools/verse_breaks.lua` (so each half-line of a verse prints on its own line), renumbers Word's
-   `wp:docPr` ids (duplicates make Word hide images), converts to PDF with LibreOffice, and copies
-   `.docx/.pdf/.md` to the output folder. `tools/lint_md.py` checks the house format (title, preface,
+   `wp:docPr` ids (duplicates make Word hide images), converts to PDF with LibreOffice for checking, and copies
+   the `.docx` to the output folder (Word files only). `tools/lint_md.py` checks the house format (title, preface,
    consecutive numbered sections, figure numbering and files, the three-paragraph Brief Summary, no lists).
    `tools/normalize.py` enforces series-wide spellings; `tools/contact_sheet.py` tiles figures for review;
    `tools/package.sh` zips deliverables under the 30 MB upload limit.
@@ -112,4 +115,4 @@ lecture files are named by their output basenames; to rebuild, copy them to `bui
 
 ## Status
 
-Both series are complete. Śāstrārtha Prakaraṇa: 13 sessions, 15 documents, 570 pages, 219 sections, 104 figures; every one of the 22 kārikās and 93 Prakāśa sentences the speaker quotes was read in the 1943 page images. Kapila Gītā: 15 sessions, 15 documents, 429 pages, 230 sections; Bhāgavata, Gītā and Upaniṣad verses were restored from e-texts, while the Subodhinī passages the speaker reads aloud remain ‹श्रवणाधारित› because no reliable e-text exists. The two closing-reports files say, lecture by lecture, what was restored and what remains flagged for checking against print or the audio.
+Both series are complete. Śāstrārtha Prakaraṇa: 13 sessions, 15 documents, 570 pages, 219 sections, 104 figures; every one of the 22 kārikās and 93 Prakāśa sentences the speaker quotes was read in the 1943 page images. Kapila Gītā: 15 sessions, 15 editions, 230 sections, delivered on 2026-10-23 as 15 English discourse booklets (Word files with 1,458 comments in the margin for the flags, and 224 quotations indexed; checked word for word against the editions); Bhāgavata, Gītā and Upaniṣad verses were restored from e-texts, while the Subodhinī passages the speaker reads aloud remain ‹श्रवणाधारित› because no reliable e-text exists. The two closing-reports files say, lecture by lecture, what was restored and what remains flagged for checking against print or the audio.

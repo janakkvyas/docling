@@ -9,9 +9,14 @@ local STYLES = {
   ["figure"] = "Figure", ["pada"] = "Pada", ["pada-heading"] = "Pada Heading",
   ["chart-text"] = "Chart Text", ["center"] = "Center", ["label"] = "Label",
   ["label-left"] = "Label Left", ["verse-iast"] = "Verse IAST", ["commentary"] = "Commentary",
-  ["signature"] = "Signature",
+  ["signature"] = "Signature", ["book-subtitle"] = "Book Subtitle", ["title-note"] = "Title Note",
+  ["front-heading"] = "Front Heading",
 }
-local PAIRED = { ["title"] = { "Book Title", "Book Title IAST" }, ["author"] = { "Book Author", "Book Author IAST" } }
+local PAIRED = {
+  ["title"] = { "Book Title", "Book Title IAST" },
+  ["author"] = { "Book Author", "Book Author IAST" },
+  ["lecture-author"] = { "Lecture Author", "Book Author IAST" },
+}
 local kind = "hindi"
 
 local function styled(blocks, name)

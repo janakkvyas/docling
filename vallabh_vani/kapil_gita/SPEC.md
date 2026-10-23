@@ -14,6 +14,10 @@ The owner of this project asked that the speaker's vocabulary — the words he a
 - Diarization: the main speaker is Goswamiji; label him **Speaker:**. Others are **A student:** / **Listener 2:** or a name if spoken. The recogniser sometimes folds a short question from the floor into the speaker's turn; split it out when it is plainly a question from the audience. Drop lone keyterm words wrongly assigned to listeners.
 - Sensitive remarks (about another religion, politics, named persons): keep as spoken; add ‹the speaker's characterization›. Never reproduce film-song lyrics; name or describe the song.
 
+## House conventions of the English books (since 2026-10-23)
+
+The editions follow the owner's English books (`vallabh_vani/booklets/SPEC_ENGLISH_STUTI_BOOK.md`): **He, His, Him, Himself** when the pronoun means Bhagavān in any of His forms (Kapila included), **You, Your** when someone addresses Him, lowercase for everyone else and whenever the referent is in doubt; **British spelling** (realise, analyse, centre, programme, practise as a verb), except in words the recogniser misheard. The fifteen editions were brought to these conventions with `booklets/tools/pronoun_tags.py`, `booklets/tools/CAPITALS_BRIEF.md` and `booklets/tools/british_spelling.py`. In the booklet the converter also gives the IAST the stuti book's form (`ṃ`, `’`, `।` `॥`), the sources its English forms, the quotations bold type, and the flags the form of Word comments.
+
 ## Editorial flags
 
 `‹ ›` conjectural restoration · `‹?›` uncertain reading (right after the word) · `‹…›` inaudible/unrecoverable · `‹श्रवणाधारित›` text given as heard, pending verification against print.
@@ -59,7 +63,7 @@ subtitle: "Lecture N — <three or four main themes>"
 1. Read the whole condensed transcript `build/KNN_<date>_turns.txt` (one line per turn: `S:` = Goswamiji, `L1:`… = others, each with its start timestamp) in overlapping chunks before writing. The per-segment source with timestamps is `sources/KNN_<date>.txt`.
 2. Map the argument, choose section breaks.
 3. Write `build/kgNN.md` in chunks via `cat >> file << 'CHUNK_n'`; after every append check `grep -c "^# N\."` for each new heading (exactly 1); cut any duplicate tail with Python.
-4. Build and verify from the project root (/tmp/claude-0/-home-user-docling/52cfa96e-0437-507f-b456-a63b9493e8f7/scratchpad/kapil_gita): `python3 tools/build_final.py outputs NN` then `python3 tools/lint_md.py build/kgNN.md`. View the title page (`pdftoppm -jpeg -r 60 -f 1 -l 1 …`) and one interior page with a verse. Outputs: `outputs/Kapil_Gita_LectureNN_EN.{docx,pdf,md}`.
+4. Build and verify: `python3 tools/lint_md.py build/kgNN.md`, then set the edition as an English discourse booklet (`vallabh_vani/booklets/SPEC_ENGLISH_DISCOURSE_BOOKLET.md`: `booklets/tools/lecture_to_booklet.py`, then `booklets/tools/build_booklet.py … --name Kapil_Gita_LectureNN_EN`). Look at the title page, the contents, a verse page and a dialogue page in the check PDF. The deliverable is `Kapil_Gita_LectureNN_EN.docx` only: the owner receives Word files, never the PDF or the markdown.
 
 The edition must be COMPLETE: the whole session, start to end, every sentence of content. Expect roughly 10,000–18,000 words.
 

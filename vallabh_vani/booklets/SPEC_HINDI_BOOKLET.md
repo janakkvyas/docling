@@ -153,7 +153,7 @@ speaker: "गोस्वामी श्याम मनोहरजी"
 2. **Collect the speaker's materials**: title and subtitle, venue and occasion, his introductory verses, his chart, the pada sung at the end, and the printed texts his quotations come from. Ask the owner for whatever is missing.
 3. **Edit** section by section: punctuation, paragraphs (a new paragraph at each turn of the exposition, every 80–150 words), sections at the real joints of the argument (nine for two hours in the exemplar), quotations found, checked against print, set in bold and sourced; English set as above; the idiom kept. Work in chunks and check after each that every `# खण्ड` heading occurs once.
 4. **Lint, build, look**: `lint_booklet.py`, then `build_booklet.py`; look at the title page, contents, the verse pages, two section openings, the chart pages, the pada and the index; compare them with the exemplar pages.
-5. **Deliver** `<Title>_<year>.docx` and `.pdf` (`-rev-N` when the owner asks for a revision) and a short closing report: pages, sections, quotations indexed and checked, what remains unresolved (page and opening words), what the owner must supply or decide.
+5. **Deliver** `<Title>_<year>.docx` only (`-rev-N` when the owner asks for a revision; the owner receives Word files, never the PDF or the markdown) and a short closing report: pages, sections, quotations indexed and checked, what remains unresolved (page and opening words), what the owner must supply or decide.
 
 ## Where the exemplar is inconsistent with itself (for the owner's decision)
 
