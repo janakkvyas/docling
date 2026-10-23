@@ -146,6 +146,7 @@ DEVA = r"[ऀ-ॿ‌]"
 def body_text(md: str) -> str:
     md = re.sub(r"^---\n.*?\n---\n", "", md, flags=re.S)
     md = re.sub(r"<!--.*?-->", " ", md, flags=re.S)
+    md = re.sub(r"!\[[^\]]*\]\([^)]*\)(\{[^}]*\})?", " ", md)  # figures
     md = re.sub(r"\*\*.*?\*\*", " ", md, flags=re.S)
     md = re.sub(r"^\|.*$", " ", md, flags=re.M)
     md = re.sub(r"^(:::|#).*$", " ", md, flags=re.M)

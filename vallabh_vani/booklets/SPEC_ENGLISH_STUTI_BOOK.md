@@ -151,7 +151,7 @@ Translation: If there is any doubt …
 4. **Translate**: verse first (close, readable, with the key terms in brackets), then the Subodhinī paragraph by paragraph, following the lectures' explanation; one paragraph of English per step of the commentary. Keep a running list of the term renderings.
 5. **Assemble** in the markdown above, write the summary part (the Subodhinī's adhyāyārtha kārikās, then the synopsis paragraph for each), the preface (by the translator) and the contents.
 6. **Check** with `lint_booklet.py` (labels, numbering, duplicated paragraphs, spelling of names), read the whole book once against the print for the Sanskrit, and once for the English alone.
-7. **Build** a Word/PDF draft with the template, or hand the markdown to the typesetter.
+7. **Build** the Word file with the template (`build_booklet.py`) and deliver it: the owner receives Word files only, never the PDF or the markdown.
 
 ## Where the exemplar is inconsistent with itself (for the owner's decision)
 

@@ -2,12 +2,12 @@
 """Build the deliverables of a lecture series from the markdown sources in build/.
 
 For each lecture key (e.g. "01", "03_part1"): pandoc with the house reference document and the verse
-line-break filter -> renumber wp:docPr ids (Word hides images when they repeat) -> LibreOffice PDF ->
-copy .docx, .pdf and .md into the output directory.
+line-break filter -> renumber wp:docPr ids (Word hides images when they repeat) -> LibreOffice PDF (kept in
+build/ for checking) -> copy the .docx into the output directory. The owner receives Word files only.
 
 The markdown prefix and the output basename come from tools/series.cfg next to this script, one line:
     sp Shastrarth_Prakaran_Lecture
-so that build/sp03_part1.md becomes Shastrarth_Prakaran_Lecture03_Part1_EN.{docx,pdf,md}.
+so that build/sp03_part1.md becomes Shastrarth_Prakaran_Lecture03_Part1_EN.docx.
 
 Usage: build_final.py [OUTDIR] [KEY ...]      default: all keys found in build/.
 """
@@ -90,12 +90,9 @@ def build(key: str, out: Path) -> None:
         [n for n in zipfile.ZipFile(docx).namelist() if n.startswith("word/media/")]
     )
     figures = len(re.findall(r"^!\[Figure", md.read_text(), re.M))
-    for src, dst in (
-        (docx, out / docx.name),
-        (pdf, out / pdf.name),
-        (md, out / f"{base}.md"),
-    ):
-        shutil.copyfile(src, dst)
+    shutil.copyfile(
+        docx, out / docx.name
+    )  # Word only: the PDF stays in build/ for checking
     print(
         f"{base}: {pages} pages, {figures} figure refs, {images} images in docx, duplicate docPr ids {dups}"
     )

@@ -98,7 +98,7 @@ pdftoppm -jpeg -r 60 -f 1 -l 1 Shastrarth_Prakaran_LectureNN_EN.pdf checkNN   # 
 
 (Use the per-lecture `-env:UserInstallation` profile path shown above, because several lectures are built in parallel and LibreOffice profiles collide otherwise.)
 
-If duplicate docPr ids appear, renumber them sequentially inside `word/document.xml` (rewrite the zip). Also view one interior page containing a verse and a figure. Then copy the `.docx`, `.pdf`, and `spNN.md` (renamed to `Shastrarth_Prakaran_LectureNN_EN.md`) into `outputs/`.
+If duplicate docPr ids appear, renumber them sequentially inside `word/document.xml` (rewrite the zip). Also view one interior page containing a verse and a figure. Then copy the `.docx` into `outputs/`: the owner receives Word files only (the PDF is for checking, and the markdown stays in the repository as the source).
 
 ## Reference: house terminology and recurring content
 

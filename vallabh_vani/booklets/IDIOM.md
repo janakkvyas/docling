@@ -123,7 +123,7 @@ Counted in the clean copy of प्रतिबिम्बवाद (2026, rev.
 | मजेदार | मज़ेदार | 5 | बड़ी-बड़ी चर्चाएँ करते रहते. मजेदार बात ये हती के |
 | भाई | भाई (address) | 13 | कियो, तो दादाजीकी बोली भाई सारी बातें याद आवें |
 | अरे | अरे | 4 | आई—"You are male chauvinist!" अरे भाई, हूँ male chauvinist! |
-| खुलासा | स्पष्ट | 2 | देखोगे तो सब कुछ खुलासा हो जायगो. ![](charts/chart_1.png){width=3.3in} ![](charts/chart_2.png){width=3.9in} |
+| खुलासा | स्पष्ट | 2 | देखोगे तो सब कुछ खुलासा हो जायगो. |
 
 ## Standard forms in the running text
 
