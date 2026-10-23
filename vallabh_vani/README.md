@@ -14,11 +14,19 @@ The `.docx` and `.pdf` deliverables are not committed (they are built from the m
 *Building*), nor is any audio. Private transcripts of a living teacher's classes: treat the contents of
 this directory with the discretion the speaker and his students would expect.
 
+Two more kinds of publication are documented in `booklets/`, learned from finished booklets the owner shared:
+the **Hindi pravachan booklet** (one discourse in the speaker's own words and idiom; model प्रतिबिम्बवाद, 2026)
+and the **English stuti book** (a Bhāgavata stuti with the Subodhinī in Devanagari, IAST and English; model
+नलकूबरमणिग्रीवकृतस्तुति). `booklets/README.md` lists the briefs, the speaker's idiom, the Word templates and the
+build. `PROJECT_INSTRUCTIONS.md` is the text for a Claude Project that covers all four kinds of work.
+
 ## Layout
 
 ```
 vallabh_vani/
   README.md
+  PROJECT_INSTRUCTIONS.md       instructions for a Claude Project covering all the work
+  booklets/                     Hindi pravachan booklets and English stuti books: briefs, idiom, templates, build
   tools/                         the pipeline (see below)
   shastrarth_prakaran/
     SPEC.md                      the translation brief the agents worked to, with the settled conventions
