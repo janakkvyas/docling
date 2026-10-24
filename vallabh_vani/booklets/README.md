@@ -1,17 +1,16 @@
-# Booklets: Hindi pravachan booklets, English stuti books, English discourse booklets
+# Booklets: Hindi pravachan booklets and English stuti books
 
-What the owner's finished publications look like, written down so that new ones can be made the same way, and the tools that make them.
+What the owner's published booklets look like, written down so that a new booklet can be made the same way when the owner asks for one, and the tools that make them. **They are not a model for the translation project**: translations and editions stay verbatim, in the format of the series briefs, and take nothing from published works (see `../README.md`).
 
 | File | What it is |
 |---|---|
 | `SPEC_HINDI_BOOKLET.md` | brief and house style of the Hindi pravachan booklet, learned from प्रतिबिम्बवाद (2026, rev. 2) |
 | `SPEC_ENGLISH_STUTI_BOOK.md` | brief and house style of the English stuti book, learned from नलकूबरमणिग्रीवकृतस्तुति (rev. 1) |
-| `SPEC_ENGLISH_DISCOURSE_BOOKLET.md` | a lecture in English set like the stuti book and built like the pravachan booklet; first made for the Kapila Gītā |
 | `IDIOM.md` | the speaker's idiom as the Hindi booklet prints it, every form counted, with examples |
 | `samples/` | the opening pages of both exemplars in the house markdown: the build test |
-| `templates/` | Word templates with the house styles (`Booklet_HI_template.docx`, `Booklet_EN_template.docx`, `Booklet_EN_discourse_template.docx`) |
+| `templates/` | Word templates with the house styles (`Booklet_HI_template.docx`, `Booklet_EN_template.docx`) |
 | `fonts/` | Noto Sans Medium, the Hindi booklet's typeface (SIL Open Font License, `OFL.txt`) |
-| `tools/` | template, build, checks, the lecture-to-booklet converter and the house spelling and capitals, and the tools for studying a new exemplar (below) |
+| `tools/` | template, build, checks, and the tools for studying a new exemplar (below) |
 
 The project instructions for a Claude Project, covering these and the lecture series, are `../PROJECT_INSTRUCTIONS.md`. **The owner receives Word files only**: the build writes the `.docx` to the output folder and a PDF for checking to `check/` inside it; never send the PDF or the markdown. The full clean copies of the two exemplars are kept with the owner (they are published booklets; this repository is public).
 
@@ -32,12 +31,9 @@ cd vallabh_vani/booklets
 python3 tools/lint_booklet.py samples/pratibimbavada_opening.md          # house conventions
 python3 tools/build_booklet.py samples/pratibimbavada_opening.md out/    # out/*.docx, check PDF in out/check/
 python3 tools/build_booklet.py samples/nalakubara_opening.md out/
-# a lecture edition as an English discourse booklet (SPEC_ENGLISH_DISCOURSE_BOOKLET.md)
-python3 tools/lecture_to_booklet.py ../kapil_gita/lectures/Kapil_Gita_Lecture01_EN.md out/kg01.md --series-deva श्रीकपिलगीता --series-iast Śrīkapilagītā
-python3 tools/build_booklet.py out/kg01.md out/ --name Kapil_Gita_Lecture01_EN
 ```
 
-`build_booklet.py` reads `booklet: hindi|english` from the YAML block, writes the reference template (`make_ref_booklet.py`), runs pandoc with `booklet.lua` (classes → paragraph styles, `* * *` → new page, bold → the 13 pt quotation style), converts with LibreOffice, and, for a Hindi booklet, generates the contents and the index of quotations, finding each quotation's page in a first build and writing the numbers in a second. For a discourse booklet the contents and the index are Word PAGEREF fields to bookmarks (LibreOffice exports the bookmarks to the check PDF, which gives the numbers cached in the fields), the title page, front matter and text are three sections (no folio, roman, Arabic from 1), and the flags of the edition arrive as Word comments. The build also puts the template's style properties and settings in the order of the WordprocessingML schema, which Word requires. `iast.py` gives the house transliteration of a Devanagari line.
+`build_booklet.py` reads `booklet: hindi|english` from the YAML block, writes the reference template (`make_ref_booklet.py`), runs pandoc with `booklet.lua` (classes → paragraph styles, `* * *` → new page, bold → the 13 pt quotation style), converts with LibreOffice, and, for a Hindi booklet, generates the contents and the index of quotations, finding each quotation's page in a first build and writing the numbers in a second. The build can also write a contents and an index as Word PAGEREF fields (`::: toc`, `::: quotations`) and a title page and front matter as their own sections (`{{end title page}}`, `{{end front matter}}`), and it puts the template's style properties and settings in the order of the WordprocessingML schema, which Word requires. `iast.py` gives the house transliteration of a Devanagari line.
 
 The template was checked against the exemplar by rebuilding the clean copy of प्रतिबिम्बवाद with it: built with LibreOffice from the clean copy, the booklet comes to 92 pages like the original, and 60 of the 85 printed pages that begin with running text begin on the same page of the rebuild. The other 25, in sections 6, 7 and 9, begin one page earlier, because the template opens every section like p. 10 while the original's openings were placed by hand lower on the page (copying the original's openings into a test build brings 78 of the 85 onto the same page). Within a page LibreOffice and Word fill lines slightly differently, a word or so per line, which no style setting removes; in Word the template carries the original's own settings and should lay the text out as the original (not verified here, as Word is not available in this environment).
 
