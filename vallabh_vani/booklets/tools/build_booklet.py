@@ -5,12 +5,12 @@
 
 Writes OUTDIR/BASENAME.docx, the deliverable (the owner receives Word files only), and a PDF for checking in
 OUTDIR/check/. The YAML block says which kind: `booklet: hindi` (pravachan booklet, the default) or
-`booklet: english` (translation book, or English discourse booklet). Page markers (<!-- p.N -->) are removed.
+`booklet: english` (translation book). Page markers (<!-- p.N -->) are removed.
 
 * Hindi booklet: the placeholders {{अनुक्रमणिका}} and {{उद्धृत वचन}} become the contents (from the `# खण्ड …`
   headings) and the index of quotations (every **"…"** followed by a source in brackets), whose page numbers are
   read from a first build.
-* English discourse booklet (SPEC_ENGLISH_DISCOURSE_BOOKLET.md): a `::: toc` block (rows `N | title | bookmark`)
+* English booklet with page fields (optional): a `::: toc` block (rows `N | title | bookmark`)
   and a `::: quotations` block (rows `bookmark | quotation | source`) become the contents and the index with
   Word PAGEREF fields, so Word recomputes the page numbers for the fonts of the computer that opens the file;
   the cached numbers are those of the build. `{{end title page}}` and `{{end front matter}}` end the sections
@@ -147,7 +147,7 @@ def pageref(bm: str, pages: dict[str, str]) -> str:
 
 
 def toc_xml(lines: list[str], pages: dict[str, str]) -> str:
-    """English discourse booklet: `::: toc` (heading, then rows `N | title | bookmark`)."""
+    """`::: toc` (heading, then rows `N | title | bookmark`): a contents with PAGEREF fields."""
     paras = [
         f'<w:p><w:pPr><w:pStyle w:val="ContentsHeading"/></w:pPr>{bookmark("contents")}{runs_xml(lines[0])}</w:p>'
     ]
@@ -172,7 +172,7 @@ def toc_xml(lines: list[str], pages: dict[str, str]) -> str:
 
 
 def quotations_xml(lines: list[str], pages: dict[str, str]) -> str:
-    """English discourse booklet: `::: quotations` (heading, then rows `bookmark | quotation | source`)."""
+    """`::: quotations` (heading, then rows `bookmark | quotation | source`): an index with PAGEREF fields."""
     paras = [
         f'<w:p><w:pPr><w:pStyle w:val="IndexHeading"/></w:pPr>{bookmark("quotations")}{runs_xml(lines[0])}</w:p>'
     ]

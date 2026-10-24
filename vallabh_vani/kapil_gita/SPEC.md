@@ -1,6 +1,8 @@
 # Kapila Gītā — verbatim English editions of the lectures
 
-You prepare the reading edition of one lecture by Gosvāmī Śrī Śyām Manoharjī on the Kapila Gītā (Śrīmad Bhāgavata, Skandha 3, adhyāyas 25–33: Kapila's teaching to Devahūti). The lectures were delivered **in English** (Indian English, with Sanskrit, Hindi and Gujarati terms, verses and asides), so this is not a translation: it is the speaker's own English, transcribed by ASR, set out as a document. Output is publication quality, reviewed by scholars. Series: Lecture 1 = 2022-10-30 … Lecture 14 = 2023-02-26; Lecture 15 = 2023-03-05 (Revision).
+You prepare the reading edition of one lecture by Dr. Dharmendra Jhala on the Kapila Gītā (Śrīmad Bhāgavata, Skandha 3, adhyāyas 25–33: Kapila's teaching to Devahūti). The lectures were delivered **in English** (Indian English, with Sanskrit, Hindi and Gujarati terms, verses and asides), so this is not a translation: it is the speaker's own English, transcribed by ASR, set out as a document. Output is publication quality, reviewed by scholars. Series: Lecture 1 = 2022-10-30 … Lecture 14 = 2023-02-26; Lecture 15 = 2023-03-05 (Revision).
+
+**Speaker (corrected 2026-10-24).** These fifteen sessions are by **Dr. Dharmendra Jhala**, not by Gosvāmī Śrī Śyām Manoharjī: they were transcribed by mistake and are not part of the corpus of Gosvāmī Śrī Śyām Manoharjī's discourses. The speaker refers to Shyam Manoharji in the third person (Lecture 3), and the students' "Jalabhai", flagged as uncertain in the editions, is probably *Jhālābhāī*. The brief stays as the record of how these editions were made.
 
 ## Standing rule (non-negotiable): keep the speaker's words
 
@@ -11,12 +13,8 @@ The owner of this project asked that the speaker's vocabulary — the words he a
 - Where the ASR has plainly mis-heard an English word, restore it only when the context makes the word certain; otherwise keep the ASR word and flag it ‹?›. Never guess silently.
 - Sanskrit, Hindi and Gujarati terms he uses stay as his terms, spelled consistently in IAST in italics on the pattern of the series (*ātmā*, *prakṛti*, *puruṣa*, *mahat*, *ahaṅkāra*, *jīva*, *bhakti*, *vairāgya*, *saṁsāra*, *māyā*, *sattva/rajas/tamas*, *satsaṅga*, *sevā*, *līlā*, *svarūpa*). Tradition-internal terms are not glossed (Mahāprabhuji, Gosāīṁjī, Ṭhākurjī, Puṣṭimārga, sevā, bhāva…). A Hindi or Gujarati sentence is transliterated in italics with a bracketed English gloss.
 - Verses: when he recites a Bhāgavata verse (or part of one) whose text you can verify against a reliable e-text (GRETIL, vedabase/bhagavata e-texts), restore it to the received reading in a verse block and cite it (Śrīmad Bhāgavata 3.26.3 etc.); what you cannot verify stays ‹श्रवणाधारित›. Watch for ASR keyterm hallucinations (the recogniser was given a list of names such as Kapila, Devahūti, Kardama, Mahāprabhuji, Vallabhācārya, Śaṅkarācārya, Subodhinī — an isolated, out-of-context occurrence of one of these is suspect).
-- Diarization: the main speaker is Goswamiji; label him **Speaker:**. Others are **A student:** / **Listener 2:** or a name if spoken. The recogniser sometimes folds a short question from the floor into the speaker's turn; split it out when it is plainly a question from the audience. Drop lone keyterm words wrongly assigned to listeners.
+- Diarization: the main speaker is Dr. Dharmendra Jhala; label him **Speaker:**. Others are **A student:** / **Listener 2:** or a name if spoken. The recogniser sometimes folds a short question from the floor into the speaker's turn; split it out when it is plainly a question from the audience. Drop lone keyterm words wrongly assigned to listeners.
 - Sensitive remarks (about another religion, politics, named persons): keep as spoken; add ‹the speaker's characterization›. Never reproduce film-song lyrics; name or describe the song.
-
-## House conventions of the English books (since 2026-10-23)
-
-The editions follow the owner's English books (`vallabh_vani/booklets/SPEC_ENGLISH_STUTI_BOOK.md`): **He, His, Him, Himself** when the pronoun means Bhagavān in any of His forms (Kapila included), **You, Your** when someone addresses Him, lowercase for everyone else and whenever the referent is in doubt; **British spelling** (realise, analyse, centre, programme, practise as a verb), except in words the recogniser misheard. The fifteen editions were brought to these conventions with `booklets/tools/pronoun_tags.py`, `booklets/tools/CAPITALS_BRIEF.md` and `booklets/tools/british_spelling.py`. In the booklet the converter also gives the IAST the stuti book's form (`ṃ`, `’`, `।` `॥`), the sources its English forms, the quotations bold type, and the flags the form of Word comments.
 
 ## Editorial flags
 
@@ -30,7 +28,7 @@ title: "श्रीकपिलगीता · Kapila Gītā"
 subtitle: "Lecture N — <three or four main themes>"
 ---
 
-*Reading edition of a spoken discourse in English by Gosvāmī Śrī Śyām Manoharjī on the Kapila Gītā (Śrīmad Bhāgavata, Skandha 3, adhyāyas 25–33), prepared from an ASR transcript of the recording of <date>. The speaker's own words, vocabulary, repetitions, asides, humour, code-switching and exchanges with students are kept; editing is limited to punctuation, paragraphing, section headings and the restoration of quoted verses to their received text. Editorial flags: ‹ › conjectural restoration of a garbled reading; ‹?› uncertain reading; ‹…› inaudible or unrecoverable passage; ‹श्रवणाधारित› text given as heard, pending verification against a printed edition.*
+*Reading edition of a spoken discourse in English by Dr. Dharmendra Jhala on the Kapila Gītā (Śrīmad Bhāgavata, Skandha 3, adhyāyas 25–33), prepared from an ASR transcript of the recording of <date>. The speaker's own words, vocabulary, repetitions, asides, humour, code-switching and exchanges with students are kept; editing is limited to punctuation, paragraphing, section headings and the restoration of quoted verses to their received text. Editorial flags: ‹ › conjectural restoration of a garbled reading; ‹?› uncertain reading; ‹…› inaudible or unrecoverable passage; ‹श्रवणाधारित› text given as heard, pending verification against a printed edition.*
 
 # 1. Section Title
 
@@ -60,10 +58,10 @@ subtitle: "Lecture N — <three or four main themes>"
 
 ## Workflow
 
-1. Read the whole condensed transcript `build/KNN_<date>_turns.txt` (one line per turn: `S:` = Goswamiji, `L1:`… = others, each with its start timestamp) in overlapping chunks before writing. The per-segment source with timestamps is `sources/KNN_<date>.txt`.
+1. Read the whole condensed transcript `build/KNN_<date>_turns.txt` (one line per turn: `S:` = Dr. Dharmendra Jhala, `L1:`… = others, each with its start timestamp) in overlapping chunks before writing. The per-segment source with timestamps is `sources/KNN_<date>.txt`.
 2. Map the argument, choose section breaks.
 3. Write `build/kgNN.md` in chunks via `cat >> file << 'CHUNK_n'`; after every append check `grep -c "^# N\."` for each new heading (exactly 1); cut any duplicate tail with Python.
-4. Build and verify: `python3 tools/lint_md.py build/kgNN.md`, then set the edition as an English discourse booklet (`vallabh_vani/booklets/SPEC_ENGLISH_DISCOURSE_BOOKLET.md`: `booklets/tools/lecture_to_booklet.py`, then `booklets/tools/build_booklet.py … --name Kapil_Gita_LectureNN_EN`). Look at the title page, the contents, a verse page and a dialogue page in the check PDF. The deliverable is `Kapil_Gita_LectureNN_EN.docx` only: the owner receives Word files, never the PDF or the markdown.
+4. Build and verify: `python3 tools/build_final.py outputs NN` (it builds the Word file with the house reference document and a PDF for checking), then `python3 tools/lint_md.py build/kgNN.md`. View the title page and one interior page with a verse in the PDF. The deliverable is `outputs/Kapil_Gita_LectureNN_EN.docx` only: the owner receives Word files, never the PDF or the markdown.
 
 The edition must be COMPLETE: the whole session, start to end, every sentence of content. Expect roughly 10,000–18,000 words.
 

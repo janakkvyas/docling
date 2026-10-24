@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 TITLE = 'title: "श्रीकपिलगीता · Kapila Gītā"'
-PREFACE = "*Reading edition of a spoken discourse in English by Gosvāmī Śrī Śyām Manoharjī on the Kapila Gītā"
+PREFACE = "*Reading edition of a spoken discourse in English by Dr. Dharmendra Jhala on the Kapila Gītā"
 LEADS = ["**Content.**", "**Examples and Stories.**", "**Terms, Verses and Flags.**"]
 for arg in sys.argv[1:]:
     md = Path(arg)

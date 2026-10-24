@@ -2,8 +2,7 @@
 """Write the Word reference documents for the two booklet types.
 
     make_ref_booklet.py hindi   OUT.docx   # pravachan booklet, after प्रतिबिम्बवाद (2026, rev. 2)
-    make_ref_booklet.py english OUT.docx   # translation book, after नलकूबरमणिग्रीवकृतस्तुति (rev. 1),
-                                           # and the English discourse booklet set in the same style
+    make_ref_booklet.py english OUT.docx   # translation book, after नलकूबरमणिग्रीवकृतस्तुति (rev. 1)
 
 Every number below was measured in the exemplar PDFs (page size, margins, fonts, sizes, spacing);
 see vallabh_vani/booklets/SPEC.md. pandoc uses the styles, the page setup and the footer of this file.
@@ -548,9 +547,8 @@ else:
         line=14.3,
         rule="exact",
     )
-    # English discourse booklets (a lecture in the speaker's English, SPEC_ENGLISH_DISCOURSE_BOOKLET.md):
-    # the same page and type, with a fuller title page, a note on the text, contents with page numbers
-    # and an index of quotations
+    # styles for an English booklet with a fuller title page, a note, contents with page numbers and an
+    # index of quotations (build_booklet.py: ::: toc, ::: quotations, {{end title page}}, {{end front matter}})
     para(
         "Book Subtitle",
         size=16,
