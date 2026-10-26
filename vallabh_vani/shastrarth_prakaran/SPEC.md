@@ -105,7 +105,7 @@ If duplicate docPr ids appear, renumber them sequentially inside `word/document.
 - The speaker's school: Śuddhādvaita, Brahmavāda, avikṛta-pariṇāma, āvirbhāva-tirobhāva, vibhāgavāda, anyakhyāti, satkāraṇa-satkāryavāda.
 - Contrasts he draws: Śaṅkara (māyā, vivarta, Vivaraṇa/Bhāmatī/Vārttika prasthānas), Bhāskara (bhedābheda, śakti-pariṇāma), Rāmānuja, Madhva, Buddha (śūnya, pratītya-samutpāda), Abrahamic creation ex nihilo.
 - He often cites Puruṣottamajī's Prakāśa commentary and "Gosāīṁjī's" additions; keep the attribution as he gives it.
-- Recurring kārikās in this series (keep wording consistent wherever they are quoted): *vedāḥ śrīkṛṣṇavākyāni vyāsasūtrāṇi caiva hi | samādhibhāṣā vyāsasya pramāṇaṁ tac catuṣṭayam ||*; *uttaraṁ pūrva-sandeha-vārakaṁ …*; *anantamūrti tad brahma avibhaktaṁ vibhaktimat …*; *tad-icchā-mātratas tasmād …*; *sac-cid-ānanda-rūpeṣu pūrvayor anya-līnatā …*. The series runs Lecture 1 (2026-07-11) … Lecture 12 (2026-10-03), Lecture 13 (2026-10-17), one lecture per recorded weekly session; do not claim in which earlier lecture a kārikā was first discussed unless the speaker says so.
+- Recurring kārikās in this series (keep wording consistent wherever they are quoted): *vedāḥ śrīkṛṣṇavākyāni vyāsasūtrāṇi caiva hi | samādhibhāṣā vyāsasya pramāṇaṁ tac catuṣṭayam ||*; *uttaraṁ pūrva-sandeha-vārakaṁ …*; *anantamūrti tad brahma avibhaktaṁ vibhaktimat …*; *tad-icchā-mātratas tasmād …*; *sac-cid-ānanda-rūpeṣu pūrvayor anya-līnatā …*. The series runs Lecture 1 (2026-07-11) … Lecture 12 (2026-10-03), Lecture 13 (2026-10-17), Lecture 14 (2026-10-24), one lecture per recorded weekly session; do not claim in which earlier lecture a kārikā was first discussed unless the speaker says so.
 
 ## The speaker's own charts
 
