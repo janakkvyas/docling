@@ -7,7 +7,7 @@ apply the line-count limit to it.
 
 | Series | Sessions | Language of the lectures | What was produced |
 |---|---|---|---|
-| `shastrarth_prakaran/` — the Śāstrārtha Prakaraṇa of Vallabhācārya's Tattvārthadīpanibandha | 13 weekly sessions, 2026-07-11 → 2026-10-17 | Hindi (with Gujarati, Sanskrit, English) | Hindi ASR transcripts; 15 English translation documents (Lectures 3 and 5 in two parts; 570 pages), 104 figures; every quoted kārikā and Prakāśa sentence verified against the Bombay 1943 edition |
+| `shastrarth_prakaran/` — the Śāstrārtha Prakaraṇa of Vallabhācārya's Tattvārthadīpanibandha | 14 weekly sessions, 2026-07-11 → 2026-10-24 | Hindi (with Gujarati, Sanskrit, English) | Hindi ASR transcripts; 16 English translation documents (Lectures 3 and 5 in two parts; 626 pages), 112 figures; every quoted kārikā and Prakāśa sentence verified against the Bombay 1943 edition |
 | `kapil_gita/` — the Kapila Gītā (Śrīmad Bhāgavata 3.25–33) by **Dr. Dharmendra Jhala**, transcribed by mistake: not part of the corpus | 15 sessions, 2022-10-30 → 2023-03-05 (revision) | English (with Sanskrit, Hindi, Gujarati) | English ASR transcripts; 15 verbatim reading editions |
 | `kapil_gita_gsm/` — the Kapila Gītā (Śrīmad Bhāgavata 3.24–26) by **Gosvāmī Śrī Śyām Manoharjī** | 14 sessions, 2022-01-30 → 2022-03-03 | English (with Sanskrit, Hindi, Gujarati) | English ASR transcripts; 14 verbatim reading editions |
 
